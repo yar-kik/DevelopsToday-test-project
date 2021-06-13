@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+TOKEN_EXPIRATION: dict = {"days": 1}
+AUTH_USER_MODEL = 'authentication.User'
 
 # Application definition
 
@@ -37,6 +39,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'rest_framework',
+    'news_board',
+    'authentication'
 ]
 
 MIDDLEWARE = [
