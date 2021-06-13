@@ -2,6 +2,8 @@
 [![Coverage Status](https://coveralls.io/repos/github/yar-kik/DevelopsToday-test-project/badge.svg?branch=master)](https://coveralls.io/github/yar-kik/DevelopsToday-test-project?branch=master)
 [![Build Status](https://travis-ci.com/yar-kik/DevelopsToday-test-project.svg?branch=master)](https://travis-ci.com/yar-kik/DevelopsToday-test-project)
 [![Python 3.8](https://img.shields.io/badge/python-3.8-blue.svg)](https://www.python.org/downloads/release/python-3810/)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
+
 ## Technologies
 Project uses such technologies:
 * Django and DRF with JWT-token for auth
