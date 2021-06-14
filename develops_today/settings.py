@@ -27,7 +27,7 @@ DEBUG = False
 ALLOWED_HOSTS = ["develops-today-test-project.herokuapp.com", "localhost",
                  "127.0.0.1"]
 
-TOKEN_EXPIRATION: dict = {"days": 1}
+TOKEN_EXPIRATION: dict = {"days": 5}
 AUTH_USER_MODEL = 'authentication.User'
 
 # Application definition
