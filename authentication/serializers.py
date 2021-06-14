@@ -22,6 +22,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
 class LoginSerializer(serializers.Serializer):
     """Class for user logging data deserialization"""
+
     username = serializers.CharField(max_length=32)
     password = serializers.CharField(max_length=64, write_only=True)
     token = serializers.CharField(max_length=255, read_only=True)
@@ -31,9 +32,9 @@ class LoginSerializer(serializers.Serializer):
         password = data.get("password")
         user = authenticate(username=username, password=password)
         if user is None:
-            raise serializers.ValidationError("User doesn't exist or "
-                                              "wrong password")
+            raise serializers.ValidationError(
+                "User doesn't exist or " "wrong password"
+            )
         if not user.is_active:
             raise serializers.ValidationError("This user has been deactivated")
-        return {"username": user.username,
-                "token": user.token}
+        return {"username": user.username, "token": user.token}

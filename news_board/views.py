@@ -1,6 +1,9 @@
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly,
+    IsAuthenticated,
+)
 from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -14,6 +17,7 @@ class ListPostApiView(APIView):
     """
     Class to get a list of news posts or create a new one.
     """
+
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -36,22 +40,22 @@ class PostApiView(APIView):
     """
     Class for CRUD operations to manage news posts.
     """
+
     serializer_class = PostSerializer
     permission_classes = [IsAuthenticatedOrReadOnly & IsAuthor]
 
     def get(self, request: Request, post_id: int) -> Response:
         post = get_object_or_404(Post, id=post_id)
         serializer = self.serializer_class(post)
-        return Response({"post": serializer.data},
-                        status=status.HTTP_200_OK)
+        return Response({"post": serializer.data}, status=status.HTTP_200_OK)
 
     def patch(self, request: Request, post_id: int) -> Response:
         post = get_object_or_404(Post, id=post_id)
         self.check_object_permissions(request, post_id)
         update_data = request.data.get("post")
-        serializer = self.serializer_class(instance=post,
-                                           data=update_data,
-                                           partial=True)
+        serializer = self.serializer_class(
+            instance=post, data=update_data, partial=True
+        )
         if serializer.is_valid():
             serializer.save()
         return Response({"post": serializer.data}, status=status.HTTP_200_OK)
@@ -60,14 +64,16 @@ class PostApiView(APIView):
         post = get_object_or_404(Post, id=post_id)
         self.check_object_permissions(request, post)
         post.delete()
-        return Response({"detail": "Deleted successfully"},
-                        status=status.HTTP_200_OK)
+        return Response(
+            {"detail": "Deleted successfully"}, status=status.HTTP_200_OK
+        )
 
 
 class ListCommentApiView(APIView):
     """
     Class to get a list of comments or create a new one.
     """
+
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly]
 
@@ -83,42 +89,46 @@ class ListCommentApiView(APIView):
     def get(self, request: Request, post_id: int) -> Response:
         comments = Post.objects.get(id=post_id).comments
         serializer = self.serializer_class(comments, many=True)
-        return Response({"comments": serializer.data},
-                        status=status.HTTP_200_OK)
+        return Response(
+            {"comments": serializer.data}, status=status.HTTP_200_OK
+        )
 
 
 class CommentApiView(APIView):
     """
     Class for CRUD operation to manage comment
     """
+
     serializer_class = CommentSerializer
     permission_classes = [IsAuthenticatedOrReadOnly & IsAuthor]
 
     def get(self, request: Request, comment_id: int) -> Response:
         comment = get_object_or_404(Comment, id=comment_id)
         serializer = self.serializer_class(comment)
-        return Response({"comment": serializer.data},
-                        status=status.HTTP_200_OK)
+        return Response(
+            {"comment": serializer.data}, status=status.HTTP_200_OK
+        )
 
-    def patch(self, request: Request,
-              comment_id: int) -> Response:
+    def patch(self, request: Request, comment_id: int) -> Response:
         comment = get_object_or_404(Comment, id=comment_id)
         self.check_object_permissions(request, comment)
         update_data = request.data.get("comment")
-        serializer = self.serializer_class(instance=comment,
-                                           data=update_data,
-                                           partial=True)
+        serializer = self.serializer_class(
+            instance=comment, data=update_data, partial=True
+        )
         if serializer.is_valid():
             serializer.save()
-        return Response({"comment": serializer.data}, status=status.HTTP_200_OK)
+        return Response(
+            {"comment": serializer.data}, status=status.HTTP_200_OK
+        )
 
-    def delete(self, request: Request,
-               comment_id: int) -> Response:
+    def delete(self, request: Request, comment_id: int) -> Response:
         comment = get_object_or_404(Comment, id=comment_id)
         self.check_object_permissions(request, comment)
         comment.delete()
-        return Response({"detail": "Deleted successfully"},
-                        status=status.HTTP_200_OK)
+        return Response(
+            {"detail": "Deleted successfully"}, status=status.HTTP_200_OK
+        )
 
 
 class UpvoteApiView(APIView):
@@ -126,7 +136,9 @@ class UpvoteApiView(APIView):
     Class to upvote the post
     """
 
-    def post(self, request: Request, post_id: int) -> Response:
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request: Request, post_id: int) -> Response:
         post = get_object_or_404(Post, id=post_id)
         if request.user in post.upvotes.all():
             post.upvotes.remove(request.user)

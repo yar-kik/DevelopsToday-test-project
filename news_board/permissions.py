@@ -6,6 +6,7 @@ class IsAuthor(permissions.BasePermission):
     """
     Object permission check if user is author.
     """
+
     def has_object_permission(self, request: Request, view, obj):
         if request.method in permissions.SAFE_METHODS:
             return True

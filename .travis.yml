@@ -1,6 +1,3 @@
-services:
-  - redis-server
-  - postgresql
 language: python
 python:
   - "3.8"
@@ -8,7 +5,5 @@ install:
   - pip install -r requirements.txt
   - pip install coveralls
 script:
-  - coverage run --source="authentication/","news_board/" manage.py test && coveralls
-  - coverage report --fail-under=80
-  - flake8 authentication/ news_board/ --exclude="venv/*"
-  - black --exclude="venv/*" authentication/ news_board/ --line-length 80 --check
+  - flake8 authentication/ news_board/ --exclude="migrations"
+  - black --exclude="venv/*" --exclude="migrations/*" authentication/ news_board/ --line-length 79 --check

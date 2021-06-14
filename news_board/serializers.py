@@ -5,6 +5,7 @@ from news_board.models import Post, Comment
 
 class PostSerializer(serializers.ModelSerializer):
     """Class for news posts serialization/deserialization"""
+
     total_upvotes = serializers.SerializerMethodField(read_only=True)
 
     def get_total_upvotes(self, post: Post):
