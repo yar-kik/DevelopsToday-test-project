@@ -8,7 +8,7 @@ This is a simple news board API.
 It have a list of news with functionality to upvote and comment on them. User also can register and login. Similar platform to [HackerNews](https://news.ycombinator.com/).
 Deployed project is located at the [link](https://develops-today-test-project.herokuapp.com)
 
-##Postman documentation 
+## Postman documentation 
 * [Authentication](https://documenter.getpostman.com/view/14489034/TzeTLAXi)
 * [News post management](https://documenter.getpostman.com/view/14489034/TzeTLAXm)
 * [Post comments management](https://documenter.getpostman.com/view/14489034/TzeTLAXk)
